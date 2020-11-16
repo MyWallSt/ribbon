@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h2 class="text-center">
+        Gift {{ variant }} - details
+    </h2>
+    
+    <p class="mt-4">
+        Let's get some details of the person who you're gifting to, so we can prepare their access and welcome email.
+    </p>
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mt-6 mb-6">
+            <p>Who are you gifting {{ variant }} to? <span style="color:red">*</span</p>
+            <div style="vertical-align: top;">
+                <div style="display: inline-block;">
+                    <div style="vertical-align: top;margin-right:10px;">
+                        {{ form.first_name(class_="inputform", size=10) }}
+                        {% for error in form.first_name.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    {{ form.last_name (class_="inputform")}}
+                    {% for error in form.last_name.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="mt-6 mb-6">
+            <p>What is their email address? <span style="color:red">*</span</p>
+            <div style="vertical-align: top;">
+                  <div style="display: inline-block;">
+                    {{ form.email(class_="inputform") }}
+                    {% for error in form.email.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 mb-6">
+            <p>Personal note (optional)</p>
+            <div style="vertical-align: top;">
+                  <div style="display: inline-block;">
+                    {{ form.personal_note(class_="inputform", rows=5, cols=40) }}
+                    <span style="color: grey;font-size:0.75em;">{{ form.personal_note.description }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 mb-6">
+            <p>Send gift on date (optional)</p>
+            <div style="vertical-align: top;">
+                  <div style="display: inline-block;">
+                    {{ form.send_gift_date }}
+                    <br><span class="inputlabel">{{ form.send_gift_date.description }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 mb-6">
+            <p>Choose variant <span style="color:red">*</span></p>
+            <div style="vertical-align: top;">
+                  <div style="display: inline-block;">
+                    {% for subfield in form.subscription_options %}
+                    <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        <br>
+                    </tr>
+                    {% endfor %}
+                    {% for error in form.subscription_options.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <p>{{ form.submit(class_="mt-4 btn btn-success btn-lg") }}</p>
+
+    </form>
+                
+    
+{% endblock %} 

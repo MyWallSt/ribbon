@@ -1,0 +1,248 @@
+:root {
+    --primary-color: #073e44;
+    --primary-color-hover: #052b30;
+    --alt-color: #ece9e0;
+    --success-color: #31A36A;
+    --success-color-hover: #346643;
+    --warning-color: #f8d07d;
+    --warning-color-hover: #eaa953;
+    --danger-color: #c34843;
+    --danger-color-hover: #b03933;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: "MabryPro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--primary-color-hover);
+}
+
+.form-row-custom{
+    padding: 15px 0px;
+    color: #f00;
+}
+
+/* Forms */
+.inputform {
+    padding: 8px 11px;
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: background-color .3s,border-color .3s;
+    -webkit-transition: background-color .3s,border-color .3s;
+    -o-transition: background-color .3s,border-color .3s;
+    border-style:solid;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+.inputlabel {
+    font-weight:lighter;
+    color: grey;
+    font-size:0.75em;
+}
+
+/* Background Colors */
+.bg-alt {
+    background-color: var(--alt-color);
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.bg-success-50 {
+    background-color: #3FB98050 !important;
+}
+
+.bg-danger {
+    background-color: var(--danger-color) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning-color) !important;
+}
+
+.bg-blue {
+    background-color: #7fbccd !important;
+}
+
+.bg-25 {
+    opacity: 0.25;
+}
+
+.bg-50 {
+    opacity: 0.5;
+}
+
+
+/* Text Colors */
+.text-primary{
+    color: var(--primary-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.text-warning {
+    color: var(--warning-color) !important;
+}
+
+.text-black-25 {
+    color: #00000030 !important;
+}
+
+.text-white-25 {
+    color: #FFFFFF30 !important;
+}
+
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background-color: var(--primary-color-hover) !important;
+    border-color: var(--primary-color-hover) !important;
+}
+
+.btn-success {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+}
+
+.btn-success:hover, .btn-success:active {
+    background-color: var(--success-color-hover) !important;
+    border-color: var(--success-color-hover) !important;
+}
+
+.btn-danger {
+    background-color: var(--danger-color) !important;
+    border-color: var(--danger-color) !important;
+}
+
+.btn-danger:hover, .btn-danger:active {
+    background-color: var(--danger-color-hover) !important;
+    border-color: var(--danger-color-hover) !important;
+}
+
+.btn-warning {
+    background-color: var(--warning-color) !important;
+    border-color: var(--warning-color) !important;
+    color: #fff !important;
+}
+
+.btn-warning:hover, .btn-warning:active {
+    background-color: var(--warning-color-hover) !important;
+    border-color: var(--warning-color-hover) !important;
+    color: #fff !important;
+}
+
+
+.btn-pill {
+    border-radius: 50px !important;
+}
+
+
+/* Boders */
+.rounded {
+    border-radius: 8px !important;
+}
+
+.border-success {
+    border-color: var(--success-color) !important;
+    border-width: thick !important;
+}
+
+.border-warning {
+    border-color: var(--warning-color) !important;
+    border-width: thick !important;
+}
+
+.border-danger {
+    border-color: var(--danger-color) !important;
+    border-width: thick !important;
+}
+
+/* Padding & Margins */
+.mt-6 {
+    margin-top: 5rem;
+}
+
+.p-6 {
+    padding: 5rem;
+}
+
+.py-6 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.px-6 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+.pt-6 {
+    padding-top: 5rem;
+}
+
+.pb-6 {
+    padding-bottom: 5rem;
+}
+
+
+
+.py-7 {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+
+/* Fonts */
+@font-face {
+    font-family: "MabryPro";
+    src: url("../font/mabry-regular-pro.woff2");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "MabryPro";
+    src: url("../font/mabry-medium-pro.woff2");
+    font-weight: medium;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "MabryPro";
+    src: url("../font/mabry-bold-pro.woff2");
+    font-weight: bold;
+    font-style: normal
+}
