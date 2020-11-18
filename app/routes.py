@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, url_for, redirect, request
 from app.forms import DetailsForm
+from app.models import Giftee, Gifter
 import stripe
 from urllib.parse import urljoin
 from app.utils import Utils
@@ -34,7 +35,18 @@ def mywallst_details():
             print(err)
 
     if form.validate_on_submit():
-        print("validate_on_submit")
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        giftee_email = form.giftee_email.data
+        personal_note = form.personal_note.data
+        send_gift_date = form.send_gift_date.data
+        subscription_options = form.subscription_options.data
+        gifter_email = form.gifter_email.data
+        
+        gifter = Gifter(email=gifter_email)
+        giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gifter=gifter)
+        print(gifter)
+        print(giftee)
         return redirect(url_for('payment_page'))
     else:
         print("else")

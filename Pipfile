@@ -10,6 +10,8 @@ flask-bootstrap = "*"
 stripe = "*"
 flask-mail = "*"
 wtforms = {extras = ["email"]}
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

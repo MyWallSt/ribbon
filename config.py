@@ -1,4 +1,5 @@
 import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     if os.environ.get('SECRET_KEY') is None:
@@ -44,3 +45,9 @@ class Config(object):
     if os.environ.get('SENDER_EMAIL') is None:
         raise EnvironmentError("SENDER_EMAIL is not set") 
     SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAILPASSWORD') 
+
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
