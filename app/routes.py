@@ -1,10 +1,11 @@
 from app import app
 from flask import render_template, url_for, redirect, request
 from app.forms import DetailsForm
-from app.models import Giftee, Gifter
+from app.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
 from app.utils import Utils
+from app import db
 
 ###
 # Landing pages
@@ -44,10 +45,13 @@ def mywallst_details():
         gifter_email = form.gifter_email.data
         
         gifter = Gifter(email=gifter_email)
-        giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gifter=gifter)
-        print(gifter)
-        print(giftee)
-        return redirect(url_for('payment_page'))
+        giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gift_owner=gifter)
+        
+        db.session.add(gifter)
+        db.session.add(giftee)
+        db.session.commit()
+        
+        return redirect(url_for('payment_page', gifter_id=gifter.id))
     else:
         print("else")
     return render_template('details.html', variant="MyWallSt", form=form)
@@ -56,9 +60,14 @@ def mywallst_details():
 ###
 # Payment handling pages
 ###
-@app.route('/mywallst/payment', methods=['GET'])
-def payment_page():
+@app.route('/mywallst/<gifter_id>/payment', methods=['GET'])
+def payment_page(gifter_id):
     session = create_session_for_mywallst_payment()
+
+    stripe_checkout_session = StripeCheckoutSession(session_id=session.id, gifter_id=gifter_id)
+    db.session.add(stripe_checkout_session)
+    db.session.commit()
+
     return render_template('payment.html', session=session)
 
 @app.route('/mywallst/purchased', methods=['GET'])

@@ -46,8 +46,8 @@ class Config(object):
         raise EnvironmentError("SENDER_EMAIL is not set") 
     SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAILPASSWORD') 
 
-
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+    if os.environ.get('DATABASE_URL') is None:
+        raise EnvironmentError("DATABASE_URL is not set") 
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

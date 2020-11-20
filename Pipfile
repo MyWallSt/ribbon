@@ -12,6 +12,10 @@ flask-mail = "*"
 wtforms = {extras = ["email"]}
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+flask-admin = "*"
+python-dotenv = "*"
+pymysql = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 
