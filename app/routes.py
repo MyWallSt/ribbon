@@ -66,7 +66,7 @@ def payment_page(gifter_id):
 
     stripe_checkout_session = StripeCheckoutSession(session_id=session.id, gifter_id=gifter_id)
     db.session.add(stripe_checkout_session)
-    db.session.commit()
+    db.session.commit() 
 
     return render_template('payment.html', session=session)
 
