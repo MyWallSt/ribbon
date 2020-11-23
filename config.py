@@ -2,6 +2,9 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
+    if os.environ.get('FLASK_ENV') is not None:
+        FLASK_ENV = os.environ.get('FLASK_ENV') 
+    
     if os.environ.get('SECRET_KEY') is None:
         raise EnvironmentError("No secret key defined") 
     SECRET_KEY = os.environ.get('SECRET_KEY') 
@@ -20,31 +23,27 @@ class Config(object):
 
     if os.environ.get('SMTP_HOST') is None:
         raise EnvironmentError("SMTP host is not set") 
-    SMTP_HOST = os.environ.get('SMTP_HOST') 
+    MAIL_SERVER = os.environ.get('SMTP_HOST') 
 
     if os.environ.get('SMTP_PORT') is None:
         raise EnvironmentError("SMTP port is not set") 
-    SMTP_PORT = os.environ.get('SMTP_PORT') 
-
-    if os.environ.get('SMTP_SECURE') is None:
-        raise EnvironmentError("SMTP secure is not set") 
-    SMTP_SECURE = os.environ.get('SMTP_SECURE') 
+    MAIL_PORT = os.environ.get('SMTP_PORT') 
 
     if os.environ.get('SMTP_AUTH') is None:
         raise EnvironmentError("SMTP auth is not set") 
-    SMTP_SECURE = os.environ.get('SMTP_AUTH') 
+    MAIL_USE_SSL = os.environ.get('SMTP_AUTH') 
 
     if os.environ.get('SMTP_USERNAME') is None:
         raise EnvironmentError("SMTP username is not set") 
-    SMTP_USERNAME = os.environ.get('SMTP_USERNAME') 
+    MAIL_USERNAME = os.environ.get('SMTP_USERNAME') 
 
     if os.environ.get('SMTP_PASSWORD') is None:
         raise EnvironmentError("SMTP password is not set") 
-    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD') 
+    MAIL_PASSWORD = os.environ.get('SMTP_PASSWORD') 
 
     if os.environ.get('SENDER_EMAIL') is None:
         raise EnvironmentError("SENDER_EMAIL is not set") 
-    SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAILPASSWORD') 
+    SECURITY_EMAIL_SENDER = os.environ.get('SENDER_EMAIL') 
 
     if os.environ.get('DATABASE_URL') is None:
         raise EnvironmentError("DATABASE_URL is not set") 

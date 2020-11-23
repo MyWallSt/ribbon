@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "/Users/sammy/.pyenv/shims/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ]
+}

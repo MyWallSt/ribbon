@@ -4,7 +4,7 @@ from app.forms import DetailsForm
 from app.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
-from app.utils import Utils
+from app.utils import send_purchase_notification
 from app import db
 
 ###
@@ -53,8 +53,7 @@ def mywallst_details():
         
         return redirect(url_for('payment_page', gifter_id=gifter.id))
     else:
-        print("else")
-    return render_template('details.html', variant="MyWallSt", form=form)
+        return render_template('details.html', variant="MyWallSt", form=form)
 
 
 ###
@@ -77,6 +76,28 @@ def purchased():
     return render_template('purchased.html')
 
 
+###
+# Admin views
+###
+@app.route('/admin/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+    
 ###
 # Helper methods
 ###
@@ -110,11 +131,15 @@ def process_session_data(request):
     try:
         stripe.api_key = app.config['STRIPE_SECRET_KEY']
         session_id = request.args.get('session_id')
-        checkout_object = stripe.checkout.Session.retrieve(session_id)
-        customer_id = checkout_object["customer"]
-        customer = stripe.Customer.retrieve(customer_id)
-        customer_email = customer["email"]
-        Utils.send_purchase_notification()
+
+        stripeCheckoutSession = db.session.query(StripeCheckoutSession).filter_by(session_id=session_id).first()
+        gifter = db.session.query(Gifter).filter_by(id=stripeCheckoutSession.gifter_id).first()
+        giftee = db.session.query(Giftee).filter_by(gifter_id=gifter.id).first()
+
+        print("gifter.email {}".format(gifter.email))
+        print("giftee.email {}".format(giftee.email))
+
+        send_purchase_notification(gifter=gifter, giftee=giftee)
     except Exception as e:
         print(e)
-        pass;
+        pass

@@ -16,8 +16,12 @@ flask-admin = "*"
 python-dotenv = "*"
 pymysql = "*"
 "psycopg2" = "*"
+flask-login = "*"
+pylint-flask = "*"
+flask-script = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.6"
