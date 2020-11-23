@@ -45,7 +45,7 @@ def mywallst_details():
         gifter_email = form.gifter_email.data
         
         gifter = Gifter(email=gifter_email)
-        giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gift_owner=gifter)
+        giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gift_owner=gifter, subscription_length=subscription_options)
         
         db.session.add(gifter)
         db.session.add(giftee)
@@ -61,7 +61,11 @@ def mywallst_details():
 ###
 @app.route('/mywallst/<gifter_id>/payment', methods=['GET'])
 def payment_page(gifter_id):
-    session = create_session_for_mywallst_payment()
+    gifter = db.session.query(Gifter).filter_by(id=gifter_id).first()
+    giftee = db.session.query(Giftee).filter_by(gifter_id=gifter_id).first()
+    is_year_subscription = giftee.subscription_length == 12
+
+    session = create_session_for_mywallst_payment(gifter.email, is_year_subscription)
 
     stripe_checkout_session = StripeCheckoutSession(session_id=session.id, gifter_id=gifter_id)
     db.session.add(stripe_checkout_session)
@@ -101,10 +105,14 @@ def logout():
 ###
 # Helper methods
 ###
-def create_session_for_mywallst_payment():
+def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
     base_url = request.url_root
 
-    plan_id = app.config['STRIPE_MYWALLST_PLAN_ID']
+    if is_year_subscription:
+        plan_id = app.config['STRIPE_MYWALLST_12M_PLAN_ID']
+    else:
+        plan_id = app.config['STRIPE_MYWALLST_6M_PLAN_ID']
+
     success_url =  urljoin(base_url, url_for('purchased') + "?session_id={CHECKOUT_SESSION_ID}")
     cancel_url = urljoin(base_url, url_for('index'))
 
@@ -118,7 +126,8 @@ def create_session_for_mywallst_payment():
         }],
         mode='payment',
         success_url=success_url,
-        cancel_url=cancel_url
+        cancel_url=cancel_url,
+        customer_email=gifter_email
     )
 
     return session
@@ -135,9 +144,6 @@ def process_session_data(request):
         stripeCheckoutSession = db.session.query(StripeCheckoutSession).filter_by(session_id=session_id).first()
         gifter = db.session.query(Gifter).filter_by(id=stripeCheckoutSession.gifter_id).first()
         giftee = db.session.query(Giftee).filter_by(gifter_id=gifter.id).first()
-
-        print("gifter.email {}".format(gifter.email))
-        print("giftee.email {}".format(giftee.email))
 
         send_purchase_notification(gifter=gifter, giftee=giftee)
     except Exception as e:

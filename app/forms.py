@@ -13,7 +13,7 @@ class DetailsForm(FlaskForm):
     giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
     personal_note = TextAreaField('Personal note', description="We will include your message in the email to the gifted person.")
     send_gift_date = DateField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Please allow up to 48 hours for delivery of non-future dates.")
-    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('1Y','1-year access to MyWallSt - $79.99'),('6M','6-month access to MyWallSt - $49.99')])
+    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','1-year access to MyWallSt - $79.99'),('6','6-month access to MyWallSt - $49.99')])
     gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
     submit = SubmitField('Submit')
 

@@ -19,6 +19,7 @@ class Giftee(db.Model):
     personal_note = db.Column(db.Text())
     send_gift_date = db.Column(db.Date())
     gifter_id = db.Column(db.Integer, db.ForeignKey('gifter.id'))
+    subscription_length = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Gifter {} {}>'.format(self.id, self.email)

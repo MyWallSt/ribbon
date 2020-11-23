@@ -17,9 +17,13 @@ class Config(object):
         raise EnvironmentError("No Stripe public key defined") 
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY') 
 
-    if os.environ.get('STRIPE_MYWALLST_PLAN_ID') is None:
-        raise EnvironmentError("No Stripe MyWallSt plan ID defined") 
-    STRIPE_MYWALLST_PLAN_ID = os.environ.get('STRIPE_MYWALLST_PLAN_ID') 
+    if os.environ.get('STRIPE_MYWALLST_12M_PLAN_ID') is None:
+        raise EnvironmentError("No Stripe MyWallSt 12M plan ID defined") 
+    STRIPE_MYWALLST_12M_PLAN_ID = os.environ.get('STRIPE_MYWALLST_12M_PLAN_ID') 
+
+    if os.environ.get('STRIPE_MYWALLST_6M_PLAN_ID') is None:
+        raise EnvironmentError("No Stripe MyWallSt 6M plan ID defined") 
+    STRIPE_MYWALLST_6M_PLAN_ID = os.environ.get('STRIPE_MYWALLST_6M_PLAN_ID') 
 
     if os.environ.get('SMTP_HOST') is None:
         raise EnvironmentError("SMTP host is not set") 

@@ -21,6 +21,7 @@ def send_purchase_notification(gifter, giftee):
         giftee_email=giftee.email, 
         giftee_first_name=giftee.first_name,
         giftee_last_name=giftee.last_name,
+        subscription_length=giftee.subscription_length,
         personal_note=giftee.personal_note,
         send_gift_date=giftee.send_gift_date
         )
