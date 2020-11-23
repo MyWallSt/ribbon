@@ -1,26 +1,25 @@
-from app import app
+from application import application
 from flask import render_template, url_for, redirect, request
-from app.forms import DetailsForm
-from app.models import Giftee, Gifter, StripeCheckoutSession
+from application.forms import DetailsForm
+from application.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
-from app.utils import send_purchase_notification
-from app import db
+from application.utils import send_purchase_notification
+from application import db
 
 ###
 # Landing pages
-###
 
-@app.route('/')
-@app.route('/index')
+@application.route('/')
+@application.route('/index')
 def index():
     return mywallst()
 
-@app.route('/mywallst/')
+@application.route('/mywallst/')
 def mywallst():
     return render_template('welcome.html', variant="MyWallSt", details_link=url_for('mywallst_details'))
 
-@app.route('/horizon/')
+@application.route('/horizon/')
 def horizon():
     return render_template('welcome.html', variant="Horizon")
 
@@ -28,7 +27,7 @@ def horizon():
 ###
 # Detail pages
 ###
-@app.route('/mywallst/details/', methods=['GET', 'POST'])
+@application.route('/mywallst/details/', methods=['GET', 'POST'])
 def mywallst_details():
     form = DetailsForm()
     for fieldName, errorMessages in form.errors.items():
@@ -59,7 +58,7 @@ def mywallst_details():
 ###
 # Payment handling pages
 ###
-@app.route('/mywallst/<gifter_id>/payment', methods=['GET'])
+@application.route('/mywallst/<gifter_id>/payment', methods=['GET'])
 def payment_page(gifter_id):
     gifter = db.session.query(Gifter).filter_by(id=gifter_id).first()
     giftee = db.session.query(Giftee).filter_by(gifter_id=gifter_id).first()
@@ -73,7 +72,7 @@ def payment_page(gifter_id):
 
     return render_template('payment.html', session=session)
 
-@app.route('/mywallst/purchased', methods=['GET'])
+@application.route('/mywallst/purchased', methods=['GET'])
 def purchased():
     if 'session_id' in request.args:
         process_session_data(request)
@@ -83,7 +82,7 @@ def purchased():
 ###
 # Admin views
 ###
-@app.route('/admin/login', methods=['GET', 'POST'])
+@application.route('/admin/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -97,7 +96,7 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))

@@ -1,13 +1,13 @@
-from app import app
+from application import application
 from flask_mail import Mail, Message
 from flask import render_template
 from smtplib import SMTPException
 
-mail = Mail(app)
+mail = Mail(application)
 
 def send_purchase_notification(gifter, giftee):
-    sender = app.config['SECURITY_EMAIL_SENDER']
-    if app.config['FLASK_ENV'] == "development":
+    sender = application.config['SECURITY_EMAIL_SENDER']
+    if application.config['FLASK_ENV'] == "development":
         recipients = ['sammy@mywallst.com']
     else:
         recipients = ['gifting@mywallst.com']
