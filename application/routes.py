@@ -108,14 +108,14 @@ def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
     base_url = request.url_root
 
     if is_year_subscription:
-        plan_id = app.config['STRIPE_MYWALLST_12M_PLAN_ID']
+        plan_id = application.config['STRIPE_MYWALLST_12M_PLAN_ID']
     else:
-        plan_id = app.config['STRIPE_MYWALLST_6M_PLAN_ID']
+        plan_id = application.config['STRIPE_MYWALLST_6M_PLAN_ID']
 
     success_url =  urljoin(base_url, url_for('purchased') + "?session_id={CHECKOUT_SESSION_ID}")
     cancel_url = urljoin(base_url, url_for('index'))
 
-    stripe.api_key = app.config['STRIPE_SECRET_KEY']
+    stripe.api_key = application.config['STRIPE_SECRET_KEY']
 
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
@@ -137,7 +137,7 @@ def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
 ###
 def process_session_data(request):
     try:
-        stripe.api_key = app.config['STRIPE_SECRET_KEY']
+        stripe.api_key = application.config['STRIPE_SECRET_KEY']
         session_id = request.args.get('session_id')
 
         stripeCheckoutSession = db.session.query(StripeCheckoutSession).filter_by(session_id=session_id).first()
