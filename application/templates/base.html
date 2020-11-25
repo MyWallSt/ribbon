@@ -13,8 +13,8 @@
         <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/favicons/favicon.ico') }}"/>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='/css/custom.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous"> #}
 
     </head>
@@ -29,7 +29,7 @@
         <div class="container py-7">
     
             <div class="bg-white p-5 py-sm-6 px-sm-7 rounded border mx-auto position-relative" style="max-width: 44rem;">
-                <img class="position-absolute" style="max-height: 220px; top:-10%; left:-15%; z-index: -1;" src="{{ url_for('static', filename='/img/circle-gold.png') }}">
+                <img class="position-absolute" style="max-height: 220px; top:-10%; left:-15%; z-index: -1;" src="{{ url_for('static', filename='img/circle-gold.png') }}">
                 {% block app_content %}{% endblock %}
                 
             </div>
