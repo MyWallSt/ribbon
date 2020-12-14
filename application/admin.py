@@ -3,7 +3,7 @@ from flask import url_for, redirect, request
 import flask_admin as admin
 import flask_login as login
 from flask_admin import helpers, expose
-from app.forms import LoginForm
+from application.forms import LoginForm
 
 class CustomAdminView(ModelView):
     def __init__(self, *args, **kwargs):

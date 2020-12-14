@@ -1,10 +1,10 @@
 from flask_script import Manager
-from app import app
-from app import db
-from app.models import User
+from application import application
+from application import db
+from application.models import User
 from werkzeug.security import generate_password_hash
 
-manager = Manager(app)
+manager = Manager(application)
 
 ###
 # Usage: python script.py create_admin_user [username] [password]

@@ -3,8 +3,8 @@ from wtforms import form, fields, validators
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
 from wtforms.fields.html5 import EmailField, DateField
 from wtforms.validators import DataRequired, Email, Optional
-from app import db
-from app.models import User
+from application import db
+from application.models import User
 from werkzeug.security import check_password_hash
 
 class DetailsForm(FlaskForm):

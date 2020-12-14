@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <img class="" style="width: 50%; margin-left:auto; margin-right:auto;display: block;" src="{{ url_for('static', filename='img/gift.png') }}">
+    
+    <h2 class="text-center mt-4">
+        Gift {{ variant }} 
+    </h2>
+    
+    <div class="mt-4 lead text-center">
+        <p>Gift a friend one off (non-recurring) access to {{ variant }} to get them started! Whoo!</p>
+            
+        <a class="mt-4 btn btn-success btn-lg" href="{{ details_link }}">Let's go!</a>
+    </div>
+
+{% endblock %} 

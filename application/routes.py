@@ -1,26 +1,27 @@
-from app import app
+from application import application
 from flask import render_template, url_for, redirect, request
-from app.forms import DetailsForm
-from app.models import Giftee, Gifter, StripeCheckoutSession
+from application.forms import DetailsForm
+from application.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
-from app.utils import send_purchase_notification
-from app import db
+from application.utils import send_purchase_notifications, process_webhook
+from application import db
+import requests
+import json
 
 ###
 # Landing pages
-###
 
-@app.route('/')
-@app.route('/index')
+@application.route('/')
+@application.route('/index')
 def index():
     return mywallst()
 
-@app.route('/mywallst/')
+@application.route('/mywallst/')
 def mywallst():
     return render_template('welcome.html', variant="MyWallSt", details_link=url_for('mywallst_details'))
 
-@app.route('/horizon/')
+@application.route('/horizon/')
 def horizon():
     return render_template('welcome.html', variant="Horizon")
 
@@ -28,7 +29,7 @@ def horizon():
 ###
 # Detail pages
 ###
-@app.route('/mywallst/details/', methods=['GET', 'POST'])
+@application.route('/mywallst/details/', methods=['GET', 'POST'])
 def mywallst_details():
     form = DetailsForm()
     for fieldName, errorMessages in form.errors.items():
@@ -59,7 +60,7 @@ def mywallst_details():
 ###
 # Payment handling pages
 ###
-@app.route('/mywallst/<gifter_id>/payment', methods=['GET'])
+@application.route('/mywallst/<gifter_id>/payment', methods=['GET'])
 def payment_page(gifter_id):
     gifter = db.session.query(Gifter).filter_by(id=gifter_id).first()
     giftee = db.session.query(Giftee).filter_by(gifter_id=gifter_id).first()
@@ -73,7 +74,7 @@ def payment_page(gifter_id):
 
     return render_template('payment.html', session=session)
 
-@app.route('/mywallst/purchased', methods=['GET'])
+@application.route('/mywallst/purchased', methods=['GET'])
 def purchased():
     if 'session_id' in request.args:
         process_session_data(request)
@@ -83,24 +84,37 @@ def purchased():
 ###
 # Admin views
 ###
-@app.route('/admin/login', methods=['GET', 'POST'])
+@application.route('/admin/login', methods=['GET', 'POST'])
 def login():
+    print("Login")
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
+            print('invalid username + password')
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+###
+# Stripe webhook
+###
+@application.route('/stripe/webhook', methods=['GET','POST'])
+def webhook():
+    # TODO do async
+    stripe_signature = request.headers.get("Stripe-Signature")
+    body = request.data
+    return process_webhook(signature=stripe_signature, body=body)
     
 ###
 # Helper methods
@@ -109,14 +123,14 @@ def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
     base_url = request.url_root
 
     if is_year_subscription:
-        plan_id = app.config['STRIPE_MYWALLST_12M_PLAN_ID']
+        plan_id = application.config['STRIPE_MYWALLST_12M_PLAN_ID']
     else:
-        plan_id = app.config['STRIPE_MYWALLST_6M_PLAN_ID']
+        plan_id = application.config['STRIPE_MYWALLST_6M_PLAN_ID']
 
     success_url =  urljoin(base_url, url_for('purchased') + "?session_id={CHECKOUT_SESSION_ID}")
     cancel_url = urljoin(base_url, url_for('index'))
 
-    stripe.api_key = app.config['STRIPE_SECRET_KEY']
+    stripe.api_key = application.config['STRIPE_SECRET_KEY']
 
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
@@ -138,14 +152,14 @@ def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
 ###
 def process_session_data(request):
     try:
-        stripe.api_key = app.config['STRIPE_SECRET_KEY']
+        stripe.api_key = application.config['STRIPE_SECRET_KEY']
         session_id = request.args.get('session_id')
 
         stripeCheckoutSession = db.session.query(StripeCheckoutSession).filter_by(session_id=session_id).first()
         gifter = db.session.query(Gifter).filter_by(id=stripeCheckoutSession.gifter_id).first()
         giftee = db.session.query(Giftee).filter_by(gifter_id=gifter.id).first()
 
-        send_purchase_notification(gifter=gifter, giftee=giftee)
+        send_purchase_notifications(gifter=gifter, giftee=giftee)
     except Exception as e:
         print(e)
         pass
