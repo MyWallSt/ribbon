@@ -13,6 +13,10 @@ class Config(object):
         raise EnvironmentError("No Stripe secret key defined") 
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY') 
 
+    if os.environ.get('STRIPE_WEBHOOK_SECRET') is None:
+        raise EnvironmentError("No Stripe webhook secret defined") 
+    STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET') 
+
     if os.environ.get('STRIPE_PUBLIC_KEY') is None:
         raise EnvironmentError("No Stripe public key defined") 
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY') 

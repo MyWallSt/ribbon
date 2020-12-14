@@ -4,8 +4,10 @@ from application.forms import DetailsForm
 from application.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
-from application.utils import send_purchase_notification
+from application.utils import send_purchase_notifications, process_webhook
 from application import db
+import requests
+import json
 
 ###
 # Landing pages
@@ -84,12 +86,14 @@ def purchased():
 ###
 @application.route('/admin/login', methods=['GET', 'POST'])
 def login():
+    print("Login")
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
+            print('invalid username + password')
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
@@ -100,6 +104,17 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+###
+# Stripe webhook
+###
+@application.route('/stripe/webhook', methods=['GET','POST'])
+def webhook():
+    # TODO do async
+    stripe_signature = request.headers.get("Stripe-Signature")
+    body = request.data
+    return process_webhook(signature=stripe_signature, body=body)
     
 ###
 # Helper methods
@@ -144,7 +159,7 @@ def process_session_data(request):
         gifter = db.session.query(Gifter).filter_by(id=stripeCheckoutSession.gifter_id).first()
         giftee = db.session.query(Giftee).filter_by(gifter_id=gifter.id).first()
 
-        send_purchase_notification(gifter=gifter, giftee=giftee)
+        send_purchase_notifications(gifter=gifter, giftee=giftee)
     except Exception as e:
         print(e)
         pass
