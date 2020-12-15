@@ -66,6 +66,10 @@ a:hover {
     color: red;
   }
 
+.inputform:focus { 
+    outline: none;
+  }
+
 .inputlabel {
     font-weight:lighter;
     color: grey;
