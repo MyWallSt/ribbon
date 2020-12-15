@@ -12,8 +12,8 @@ class ReverseProxied(object):
         self.app = app
 
     def __call__(self, environ, start_response):
-        # if application.config['FLASK_ENV'] == "production":
-        environ['wsgi.url_scheme'] = 'https'
+        if application.config['FLASK_ENV'] == "production":
+            environ['wsgi.url_scheme'] = 'https'
             
         return self.app(environ, start_response)
 

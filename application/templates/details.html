@@ -4,11 +4,12 @@
     <img class="" style="width: 50%; margin-left:auto; margin-right:auto;display: block;" src="{{ url_for('static', filename='img/gift.png') }}">
 
     <h2 class="text-center mt-4">
-        Gift {{ variant }} - details
+        Let’s wrap the gift! &#127873;
+        
     </h2>
     
     <p class="mt-4">
-        Let's get some details of the person who you're gifting to, so we can prepare their access and welcome email.
+        We need a few details about the person you want to gift {{ variant }} so we can deliver personalised email with an optional note from you.
     </p>
 
     <form action="" method="post" novalidate>
@@ -61,7 +62,7 @@
             <p>Send gift on date (optional)</p>
             <div style="vertical-align: top;">
                   <div style="display: inline-block;">
-                    {{ form.send_gift_date }}
+                    {{ form.send_gift_date(class_='inputform', type='date') }}
                     <br><span class="inputlabel">{{ form.send_gift_date.description }}</span>
                 </div>
             </div>
@@ -80,7 +81,9 @@
                     {% endfor %}
                     {% for error in form.subscription_options.errors %}
                         <span style="color: red;">{{ error }}</span>
+                        <br>
                     {% endfor %}
+                    <span class="inputlabel">{{ form.subscription_options.description }}</span>
                 </div>
             </div>
         </div>
@@ -103,3 +106,15 @@
                 
     
 {% endblock %} 
+
+
+{% block scripts %}
+  {{ super() }}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('#datepick').datetimepicker();
+    });
+  </script>
+{% endblock %}
