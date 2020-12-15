@@ -13,9 +13,9 @@ class Config(object):
         raise EnvironmentError("No Slack app token defined") 
     SLACK_APP_TOKEN = os.environ.get('SLACK_APP_TOKEN') 
 
-    if os.environ.get('STRIPE_SECRET_KEY') is None:
+    if os.environ.get('STRIPE_SECRET_RESTRICTED_KEY') is None:
         raise EnvironmentError("No Stripe secret key defined") 
-    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY') 
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_RESTRICTED_KEY') 
 
     if os.environ.get('STRIPE_WEBHOOK_SECRET') is None:
         raise EnvironmentError("No Stripe webhook secret defined") 
