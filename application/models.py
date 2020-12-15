@@ -17,7 +17,7 @@ class Giftee(db.Model):
     last_name = db.Column(db.String(120))
     email = db.Column(db.String(120))
     personal_note = db.Column(db.Text())
-    send_gift_date = db.Column(db.Date())
+    send_gift_date = db.Column(db.String(120))
     gifter_id = db.Column(db.Integer, db.ForeignKey('gifter.id'))
     subscription_length = db.Column(db.Integer)
 
