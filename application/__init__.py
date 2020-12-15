@@ -7,9 +7,21 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_login import LoginManager
 
+class ReverseProxied(object):
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        # if application.config['FLASK_ENV'] == "production":
+        environ['wsgi.url_scheme'] = 'https'
+            
+        return self.app(environ, start_response)
+
 application = Flask(__name__)
 application.config.from_object(Config)
 application.url_map.strict_slashes = False
+
+application.wsgi_app = ReverseProxied(application.wsgi_app)
 
 db = SQLAlchemy(application)
 migrate = Migrate(application, db, render_as_batch=True)

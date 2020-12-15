@@ -8,7 +8,7 @@ import requests
 mail = Mail(application)
 
 def send_purchase_notifications(gifter, giftee):
-    #send_email(gifter, giftee)
+    send_email(gifter, giftee)
     notify_slack(gifter.email)
 
 def send_email(gifter, giftee):
