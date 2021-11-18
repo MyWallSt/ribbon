@@ -4,7 +4,7 @@ from application.forms import DetailsForm
 from application.models import Giftee, Gifter, StripeCheckoutSession
 import stripe
 from urllib.parse import urljoin
-from application.utils import send_purchase_notifications, process_webhook
+from application.utils import send_purchase_notifications, process_webhook, send_test_email
 from application import db
 import requests
 import json
@@ -44,14 +44,14 @@ def mywallst_details():
         send_gift_date = form.send_gift_date.data
         subscription_options = form.subscription_options.data
         gifter_email = form.gifter_email.data
-        
+
         gifter = Gifter(email=gifter_email)
         giftee = Giftee(first_name=first_name, last_name=last_name, email=giftee_email, personal_note=personal_note, send_gift_date=send_gift_date, gift_owner=gifter, subscription_length=subscription_options)
-        
+
         db.session.add(gifter)
         db.session.add(giftee)
         db.session.commit()
-        
+
         return redirect(url_for('payment_page', gifter_id=gifter.id))
     else:
         return render_template('details.html', variant="MyWallSt", form=form)
@@ -70,12 +70,13 @@ def payment_page(gifter_id):
 
     stripe_checkout_session = StripeCheckoutSession(session_id=session.id, gifter_id=gifter_id)
     db.session.add(stripe_checkout_session)
-    db.session.commit() 
+    db.session.commit()
 
     return render_template('payment.html', session=session)
 
 @application.route('/mywallst/purchased', methods=['GET'])
 def purchased():
+
     if 'session_id' in request.args:
         process_session_data(request)
     return render_template('purchased.html')
@@ -115,7 +116,7 @@ def webhook():
     stripe_signature = request.headers.get("Stripe-Signature")
     body = request.data
     return process_webhook(signature=stripe_signature, body=body)
-    
+
 ###
 # Helper methods
 ###
@@ -124,8 +125,6 @@ def create_session_for_mywallst_payment(gifter_email, is_year_subscription):
 
     if is_year_subscription:
         plan_id = application.config['STRIPE_MYWALLST_12M_PLAN_ID']
-    else:
-        plan_id = application.config['STRIPE_MYWALLST_6M_PLAN_ID']
 
     success_url =  urljoin(base_url, url_for('purchased') + "?session_id={CHECKOUT_SESSION_ID}")
     cancel_url = urljoin(base_url, url_for('index'))

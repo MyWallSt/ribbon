@@ -8,10 +8,10 @@ import requests
 mail = Mail(application)
 
 def send_purchase_notifications(gifter, giftee):
-    send_email(gifter, giftee)
     notify_slack(gifter.email)
+    send_email(gifter, giftee)
 
-def send_email(gifter, giftee):
+def send_test_email():
     sender = application.config['SECURITY_EMAIL_SENDER']
     if application.config['FLASK_ENV'] == "development":
         recipients = ['sammy@mywallst.com']
@@ -22,9 +22,28 @@ def send_email(gifter, giftee):
     template = '/email/purchase_notification_email.html'
 
     msg = Message(title, sender=sender, recipients=recipients)
-    template = render_template(template, 
-        gifter_email=gifter.email, 
-        giftee_email=giftee.email, 
+
+    msg.html = "Hello"
+    try:
+        mail.send(msg)
+    except SMTPException as e:
+        print(e)
+
+def send_email(gifter, giftee):
+    print("send email")
+    sender = application.config['SECURITY_EMAIL_SENDER']
+    if application.config['FLASK_ENV'] == "development":
+        recipients = ['sammy@mywallst.com']
+    else:
+        recipients = ['gifting@mywallst.com']
+
+    title = 'MyWallSt gift purchased'
+    template = '/email/purchase_notification_email.html'
+
+    msg = Message(title, sender=sender, recipients=recipients)
+    template = render_template(template,
+        gifter_email=gifter.email,
+        giftee_email=giftee.email,
         giftee_first_name=giftee.first_name,
         giftee_last_name=giftee.last_name,
         subscription_length=giftee.subscription_length,
@@ -48,7 +67,6 @@ def process_webhook(signature, body):
     print("signature " + signature)
     webhook_secret = application.config['STRIPE_WEBHOOK_SECRET']
     price_12m = application.config['STRIPE_MYWALLST_12M_PLAN_ID']
-    price_6m = application.config['STRIPE_MYWALLST_6M_PLAN_ID']
     event = stripe.Webhook.construct_event(body, signature, webhook_secret)
     print(str(event))
     if event.type in ["invoice.finalized"] and event.data.object.items.data.plan.product in [price_12m, price_6m]:
@@ -58,7 +76,7 @@ def process_webhook(signature, body):
 
     return ("", 200, None)
 
-def retrieve_customer_email(event): 
+def retrieve_customer_email(event):
     try:
         customer_id = event.data.object.customer
         stripe.api_key = application.config['STRIPE_SECRET_KEY']
@@ -71,13 +89,13 @@ def retrieve_customer_email(event):
         return None
 
 def notify_slack(gifter_email):
+    print("notify slack")
     slack_token = application.config['SLACK_APP_TOKEN']
     text = "New gift bought by {}. See email or admin panel for more details.".format(gifter_email)
-    
+
     response = requests.post('https://slack.com/api/chat.postMessage', {
         'token': slack_token,
         'channel': "gifting-referral-notifications",
         'text': text
     }).json()
     print(response)
-

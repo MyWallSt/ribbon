@@ -18,11 +18,20 @@
         <link type="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
         {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous"> #}
 
+
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TRVXZ95');</script>
+        <!-- End Google Tag Manager -->
+
     </head>
 
     <body class="{% block bodyclass %}{% endblock %}">
         <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXKX88C"
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRVXZ95"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
 
@@ -32,15 +41,15 @@
             <div class="bg-white p-5 py-sm-6 px-sm-7 rounded border mx-auto position-relative" style="max-width: 44rem;">
                 <img class="position-absolute" style="max-height: 220px; top:-40px; left:-15%; z-index: -1;" src="{{ url_for('static', filename='img/circle-gold.png') }}">
                 {% block app_content %}{% endblock %}
-                
+
             </div>
 
         </div>
-        
+
 
         <!-- Footer -->
         <div class="container pt-7 pb-3">
-            <p class="small text-muted text-center">© 2020 MyWallSt Ltd. All rights reserved. This website is operated by MyWallSt Ltd (“MyWallSt”). MyWallSt is a publisher and a technology platform, not a registered broker-dealer or registered investment adviser, and does not provide investment advice. Brokerage services are provided to clients of MyWallSt by DriveWealth LLC, an SEC registered broker-dealer and member FINRA/SIPC. Investing involves risk and investments may lose value. Past performance does not guarantee future results. “MyWallSt“, “Pulse Investing Made Easy” and “Tap To Invest” are registered trademarks of MyWallSt. <a href="https://mywallst.com/legal" target="_blank">Privacy Policy</a>.</p>
+            <p class="small text-muted text-center">© 2021 MyWallSt Ltd. All rights reserved. This website is operated by MyWallSt Ltd (“MyWallSt”). MyWallSt is a publisher and a technology platform, not a registered broker-dealer or registered investment adviser, and does not provide investment advice. Brokerage services are provided to clients of MyWallSt by DriveWealth LLC, an SEC registered broker-dealer and member FINRA/SIPC. Investing involves risk and investments may lose value. Past performance does not guarantee future results. “MyWallSt“, “Pulse Investing Made Easy” and “Tap To Invest” are registered trademarks of MyWallSt. <a href="https://mywallst.com/legal" target="_blank">Privacy Policy</a>.</p>
         </div>
 
         <!-- Scripts -->
