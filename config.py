@@ -39,7 +39,7 @@ class Config(object):
 
     if os.environ.get('SMTP_AUTH') is None:
         raise EnvironmentError("SMTP auth is not set")
-    MAIL_USE_SSL = os.environ.get('SMTP_AUTH')
+    MAIL_USE_TLS = os.environ.get('SMTP_AUTH')
 
     if os.environ.get('SMTP_USERNAME') is None:
         raise EnvironmentError("SMTP username is not set")

@@ -8,9 +8,8 @@ import requests
 mail = Mail(application)
 
 def send_purchase_notifications(gifter, giftee):
-    # send_email(gifter, giftee)
-    # notify_slack(gifter.email)
-    sender = "peep"
+    notify_slack(gifter.email)
+    send_email(gifter, giftee)
 
 def send_test_email():
     sender = application.config['SECURITY_EMAIL_SENDER']
@@ -31,6 +30,7 @@ def send_test_email():
         print(e)
 
 def send_email(gifter, giftee):
+    print("send email")
     sender = application.config['SECURITY_EMAIL_SENDER']
     if application.config['FLASK_ENV'] == "development":
         recipients = ['sammy@mywallst.com']
@@ -89,6 +89,7 @@ def retrieve_customer_email(event):
         return None
 
 def notify_slack(gifter_email):
+    print("notify slack")
     slack_token = application.config['SLACK_APP_TOKEN']
     text = "New gift bought by {}. See email or admin panel for more details.".format(gifter_email)
 
