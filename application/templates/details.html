@@ -5,9 +5,9 @@
 
     <h2 class="text-center mt-4">
         Let’s wrap the gift! &#127873;
-        
+
     </h2>
-    
+
     <p class="mt-4">
         In order to prepare your gift, first we need some details about the lucky person who has you in their life.
     </p>
@@ -32,7 +32,7 @@
                         <span style="color: red;">{{ error }}</span>
                     {% endfor %}
                 </div>
-                
+
             </div>
         </div>
 
@@ -75,7 +75,8 @@
                     {% for subfield in form.subscription_options %}
                     <tr>
                         <td>{{ subfield }}</td>
-                        <td>{{ subfield.label }}</td>
+                        <td>12-month access - <span style="text-decoration:line-through">$99.99</span> now only $69.99</td>
+                        <!-- <td>{{ subfield.label }}</td> -->
                         <br>
                     </tr>
                     {% endfor %}
@@ -87,7 +88,7 @@
                 </div>
             </div>
         </div>
-        
+
          <div class="mt-6 mb-6">
             <p>What is your email address? <span style="color:red">*</span</p>
             <div style="vertical-align: top;">
@@ -103,9 +104,9 @@
         <p>{{ form.submit(class_="mt-4 btn btn-success btn-lg") }}</p>
 
     </form>
-                
-    
-{% endblock %} 
+
+
+{% endblock %}
 
 
 {% block scripts %}
