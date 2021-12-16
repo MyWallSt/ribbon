@@ -27,7 +27,7 @@ def horizon():
 
 @application.route('/academy/')
 def academy():
-    return render_template('welcome.html', variant="Academy", details_link=url_for('academy_details'))
+    return render_template('/academy/welcome.html', variant="Academy", details_link=url_for('academy_details'))
 
 ###
 # Detail pages
@@ -86,11 +86,11 @@ def payment_page(gifter_id, variant):
     if variant == "mywallst":
         plan_id = application.config['STRIPE_MYWALLST_12M_PLAN_ID']
         success_url = urljoin(base_url, url_for('payment_complete', variant='mywallst') + "?session_id={CHECKOUT_SESSION_ID}")
-    elif variant == "orizon":
+    elif variant == "horizon":
         plan_id = application.config['STRIPE_HORIZON_PLAN_ID']
         success_url = urljoin(base_url, url_for('payment_complete', variant='horizon') + "?session_id={CHECKOUT_SESSION_ID}") 
     else:
-        plan_id = application.config['STRIPE_HORIZON_PLAN_ID']
+        plan_id = application.config['STRIPE_ACADEMY_PLAN_ID']
         success_url = urljoin(base_url, url_for('payment_complete', variant='academy') + "?session_id={CHECKOUT_SESSION_ID}") 
 
     session = create_session(gifter.email, plan_id=plan_id, success_url=success_url)
@@ -105,8 +105,11 @@ def payment_page(gifter_id, variant):
 def payment_complete(variant):
     if 'session_id' in request.args:
         process_session_data(request=request, variant=variant)
-    return render_template('purchased.html')
 
+    if variant == "academy":
+        return render_template('/academy/purchased.html')
+    else:
+        return render_template('purchased.html')
 
 ###
 # Admin views
