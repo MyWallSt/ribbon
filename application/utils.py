@@ -91,7 +91,7 @@ def retrieve_customer_email(event):
 def notify_slack(gifter_email, variant):
     print("notify slack")
     slack_token = application.config['SLACK_APP_TOKEN']
-    text = "New {{ variant }} gift bought by {}. See email or admin panel for more details.".format(gifter_email)
+    text = "New {} gift bought by {}. See email or admin panel for more details.".format(variant, gifter_email)
 
     response = requests.post('https://slack.com/api/chat.postMessage', {
         'token': slack_token,
