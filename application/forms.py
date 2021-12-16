@@ -7,13 +7,33 @@ from application import db
 from application.models import User
 from werkzeug.security import check_password_hash
 
-class DetailsForm(FlaskForm):
+class MyWallStDetailsForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired('This field is required')], render_kw={"placeholder": "First Name"})
     last_name = StringField('Last Name', validators=[DataRequired()], render_kw={"placeholder": "Last Name"})
     giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
     personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
     send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
     subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','12-month access to MyWallSt - $99.99')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain MyWallSt access.")
+    gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
+    submit = SubmitField('Continue')
+
+class HorizonDetailsForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired('This field is required')], render_kw={"placeholder": "First Name"})
+    last_name = StringField('Last Name', validators=[DataRequired()], render_kw={"placeholder": "Last Name"})
+    giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
+    personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
+    send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
+    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','12-month access to Horizon - $999')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain Horizon access.")
+    gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
+    submit = SubmitField('Continue')
+
+class AcademyDetailsForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired('This field is required')], render_kw={"placeholder": "First Name"})
+    last_name = StringField('Last Name', validators=[DataRequired()], render_kw={"placeholder": "Last Name"})
+    giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
+    personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
+    send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
+    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','Access to 1 Academy course - $399')])
     gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
     submit = SubmitField('Continue')
 

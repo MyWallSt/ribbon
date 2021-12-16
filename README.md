@@ -1,3 +1,3 @@
 ### Running app locally
-`pipenv sync`
+`pipenv sync` & `pipenv shell`
 `python application.py`
