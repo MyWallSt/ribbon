@@ -29,6 +29,10 @@ class Config(object):
         raise EnvironmentError("No Stripe MyWallSt 12M plan ID defined")
     STRIPE_MYWALLST_12M_PLAN_ID = os.environ.get('STRIPE_MYWALLST_12M_PLAN_ID')
 
+    if os.environ.get('STRIPE_HORIZON_PLAN_ID') is None:
+        raise EnvironmentError("No Stripe Horizon plan ID defined")
+    STRIPE_HORIZON_PLAN_ID = os.environ.get('STRIPE_HORIZON_PLAN_ID')
+
     if os.environ.get('SMTP_HOST') is None:
         raise EnvironmentError("SMTP host is not set")
     MAIL_SERVER = os.environ.get('SMTP_HOST')

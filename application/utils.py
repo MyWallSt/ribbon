@@ -7,9 +7,9 @@ import requests
 
 mail = Mail(application)
 
-def send_purchase_notifications(gifter, giftee):
+def send_purchase_notifications(gifter, giftee, variant):
     notify_slack(gifter.email)
-    send_email(gifter, giftee)
+    send_email(gifter=gifter, giftee=giftee, variant=variant)
 
 def send_test_email():
     sender = application.config['SECURITY_EMAIL_SENDER']
@@ -29,7 +29,7 @@ def send_test_email():
     except SMTPException as e:
         print(e)
 
-def send_email(gifter, giftee):
+def send_email(gifter, giftee, variant):
     print("send email")
     sender = application.config['SECURITY_EMAIL_SENDER']
     if application.config['FLASK_ENV'] == "development":
@@ -37,16 +37,16 @@ def send_email(gifter, giftee):
     else:
         recipients = ['gifting@mywallst.com']
 
-    title = 'MyWallSt gift purchased'
+    title = variant + ' gift purchased'
     template = '/email/purchase_notification_email.html'
 
     msg = Message(title, sender=sender, recipients=recipients)
     template = render_template(template,
+        variant=variant,
         gifter_email=gifter.email,
         giftee_email=giftee.email,
         giftee_first_name=giftee.first_name,
         giftee_last_name=giftee.last_name,
-        subscription_length=giftee.subscription_length,
         personal_note=giftee.personal_note,
         send_gift_date=giftee.send_gift_date
         )
