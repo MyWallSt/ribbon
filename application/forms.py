@@ -13,7 +13,7 @@ class MyWallStDetailsForm(FlaskForm):
     giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
     personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
     send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
-    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','12-month access to MyWallSt - $99.99')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain MyWallSt access.")
+    subscription_options =  RadioField('Choose gift', validators=[DataRequired()], choices=[('12','12-month access to MyWallSt - $99.99')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain MyWallSt access.")
     gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
     submit = SubmitField('Continue')
 
@@ -23,7 +23,7 @@ class HorizonDetailsForm(FlaskForm):
     giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
     personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
     send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
-    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','12-month access to Horizon - $999')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain Horizon access.")
+    subscription_options =  RadioField('Choose gift', validators=[DataRequired()], choices=[('12','12-month access to Horizon - $999')], description="This is a one-off payment, not an ongoing subscription. Following the gift period, the user will need to subscribe to maintain Horizon access.")
     gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
     submit = SubmitField('Continue')
 
@@ -33,7 +33,7 @@ class AcademyDetailsForm(FlaskForm):
     giftee_email = EmailField('Email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "john.doe@email.com"})
     personal_note = TextAreaField('Personal note', description="Add a personal touch with a message to the person of your choice.")
     send_gift_date = StringField('Send gift on date', validators=[Optional()], description="You can select your preferred date for the gift to be sent. Gift orders will be processed within 2 business days.", render_kw={"placeholder": "yyyy/mm/dd"})
-    subscription_options =  RadioField('Choose variant', validators=[DataRequired()], choices=[('12','Access to 1 Academy course - $399')])
+    subscription_options =  RadioField('Choose gift', validators=[DataRequired()], choices=[('12','1 place on The Fundamentals of Stock Picking course — $399')], description="This is a one-off payment that grants the student access to the MyWallSt Academy course and one year's subscription to MyWallSt. Following the one-year subscription period, the student will need to resubscribe to retain full access to MyWallSt.")
     gifter_email = EmailField('Gifter email address', validators=[DataRequired(),Email('Invalid email')], render_kw={"placeholder": "jane.doe@email.com"})
     submit = SubmitField('Continue')
 
